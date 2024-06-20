@@ -93,8 +93,6 @@ Run the database seeder
 
 ## Screenshots
 
-![Admin Dashboard](https://github.com/fahadchy24/chat-app-vue3/blob/main/public/assets/images/admin-end-dashboard.png)
-
-![User Dashboard](https://github.com/fahadchy24/chat-app-vue3/blob/main/public/assets/images/user-end-dashboard.png)
-
-![Chat Box](https://github.com/fahadchy24/chat-app-vue3/blob/main/public/assets/images/chat-box.png)
+|Admin Dashboard|User Dashboard|Chat Box|    
+|------------|-------------|----------|
+|<img src="https://raw.githubusercontent.com/fahadchy24/chat-app-vue3/main/public/assets/images/admin-end-dashboard.png" width="250">|<img src="https://raw.githubusercontent.com/fahadchy24/chat-app-vue3/main/public/assets/images/user-end-dashboard.png" width="250">|<img src="https://raw.githubusercontent.com/fahadchy24/chat-app-vue3/main/public/assets/images/chat-box.png" width="250">
