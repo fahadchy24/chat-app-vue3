@@ -6,19 +6,6 @@ const props = defineProps({
     users: Object,
 });
 
-
-function OnMounted() {
-    axios
-        .get('/users')
-        .then(response => {
-            console.log(response.data);
-            props.users.value = response.data;
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
-
 </script>
 
 <template>
@@ -26,7 +13,7 @@ function OnMounted() {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Dashboardsss</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Dashboard</h2>
         </template>
 
         <div class="py-12">
@@ -34,12 +21,10 @@ function OnMounted() {
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            <!-- Loop through the users array to display user information -->
                             <template v-for="user in users" :key="user.id">
                                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                                     <div class="p-6">
                                         <div class="flex items-center">
-                                            <!-- Create a link to the chat route for each user -->
                                             <Link :href="route('chat', user.id)">
                                                 <span class="text-lg font-medium">{{ user.name }}</span>
                                             </Link>

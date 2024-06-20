@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import { nextTick, onMounted, ref, watch } from "vue";
+import {nextTick, onMounted, ref, watch} from "vue";
 
 const props = defineProps({
     friend: {
@@ -16,8 +16,10 @@ const props = defineProps({
 const messages = ref([]);
 const newMessage = ref("");
 const messagesContainer = ref("");
+const isFriendTyping = ref(false);
+const isFriendTypingTimer = ref(null);
 
-watch(messages, () =>{
+watch(messages, () => {
     nextTick(() => {
         // messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
         messagesContainer.value.scrollTo({
@@ -40,6 +42,13 @@ const sendMessage = () => {
     }
 };
 
+const sendTypingEvent = () => {
+    Echo.private(`chat.${props.friend.id}`)
+        .whisper("typing", {
+            userID: props.currentUser.id,
+        });
+};
+
 onMounted(() => {
     axios.get(`/messages/${props.friend.id}`).then((response) => {
         messages.value = response.data;
@@ -48,6 +57,20 @@ onMounted(() => {
     Echo.private(`chat.${props.currentUser.id}`)
         .listen('ChatMessageEvent', (response) => {
             messages.value.push(response.message);
+        })
+        .listenForWhisper("typing", (response) => {
+            /*if(response.userID === props.friend.id){
+                isFriendTyping.value = true;
+            }*/
+            isFriendTyping.value = response.userID === props.friend.id;
+
+            if (isFriendTypingTimer.value) {
+                clearTimeout(isFriendTypingTimer.value);
+            }
+
+            isFriendTypingTimer.value = setTimeout(() => {
+                isFriendTyping.value = false;
+            }, 1000);
         });
 });
 
@@ -78,6 +101,7 @@ onMounted(() => {
             <input
                 type="text"
                 v-model="newMessage"
+                @keydown="sendTypingEvent"
                 @keyup.enter="sendMessage"
                 placeholder="Type a message..."
                 class="flex-1 px-2 py-1 border rounded-lg"
@@ -89,5 +113,8 @@ onMounted(() => {
                 Send
             </button>
         </div>
+        <small v-if="isFriendTyping" class="text-gray-500">
+            {{ friend.name }} is typing...
+        </small>
     </div>
 </template>
