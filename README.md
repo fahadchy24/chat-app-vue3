@@ -21,6 +21,10 @@ Install all the dependencies using composer
 
     composer install
 
+Install all ui dependencies using npm
+
+    npm install
+
 Copy the example env file and make the required configuration changes in the .env file
 
     cp .env.example .env
@@ -44,6 +48,10 @@ Start the local development server
 
 You can now access the server at http://localhost:8000
 
+Start the ui scaffolding
+
+    npm run dev
+
 Start the local broadcasting server
 
     php artisan reverb:start
@@ -53,6 +61,7 @@ Start the local broadcasting server
     git clone git@github.com:fahadchy24/chat-app-vue3.git
     cd chat-app-vue3
     composer install
+    npm install
     cp .env.example .env
     php artisan key:generate
     php artisan install:broadcasting
@@ -61,6 +70,7 @@ Start the local broadcasting server
 
     php artisan migrate
     php artisan serve
+    npm run dev
     php artisan reverb:start
 
 ## Database seeding & backup
