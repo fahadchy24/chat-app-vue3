@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ChatMessageEvent;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Models\ChatMessage;
@@ -54,7 +55,8 @@ Route::middleware('auth')->group(function () {
             'message' => request('message')
         ]);
 
-        broadcast(new \App\Events\ChatMessageEvent($message, auth()->user()))->toOthers();
+        broadcast(new ChatMessageEvent($message));
+
         return response()->json([
             'message' => $message
         ]);

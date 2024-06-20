@@ -15,7 +15,17 @@ const props = defineProps({
 
 const messages = ref([]);
 const newMessage = ref("");
-const messagesContainer = ref(null);
+const messagesContainer = ref("");
+
+watch(messages, () =>{
+    nextTick(() => {
+        // messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
+        messagesContainer.value.scrollTo({
+            top: messagesContainer.value.scrollHeight,
+            behavior: "smooth",
+        })
+    });
+}, {deep: true});
 
 const sendMessage = () => {
     if (newMessage.value.trim() !== "") {
@@ -34,6 +44,11 @@ onMounted(() => {
     axios.get(`/messages/${props.friend.id}`).then((response) => {
         messages.value = response.data;
     });
+
+    Echo.private(`chat.${props.currentUser.id}`)
+        .listen('ChatMessageEvent', (response) => {
+            messages.value.push(response.message);
+        });
 });
 
 </script>
@@ -76,7 +91,3 @@ onMounted(() => {
         </div>
     </div>
 </template>
-
-<style scoped>
-
-</style>

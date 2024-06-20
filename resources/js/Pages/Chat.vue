@@ -9,8 +9,6 @@ const props = defineProps({
 
 const user = usePage().props.auth.user;
 
-console.log(user.value);
-
 </script>
 
 <template>
